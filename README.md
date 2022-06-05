@@ -1,5 +1,5 @@
 [![PyPI](https://img.shields.io/pypi/v/pyqiita)](https://pypi.org/project/pyqiita)
-[![GitHub](https://img.shields.io/github/license/peco2282/qiipy)](https://github.com/peco2282/Qiipy/blob/main/license)
+[![GitHub](https://img.shields.io/github/license/peco2282/qiipy)](https://github.com/peco2282/Qiipy/blob/main/LICENSE)
 # pyqiita
 
 This is an API wrapper for Qiita API v2.
