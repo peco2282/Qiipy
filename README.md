@@ -1,9 +1,13 @@
-![PyPI](https://img.shields.io/pypi/v/pyqiita)
-![GitHub](https://img.shields.io/github/license/peco2282/qiipy)
-
+[![PyPI](https://img.shields.io/pypi/v/pyqiita)](https://pypi.org/project/pyqiita)
+[![GitHub](https://img.shields.io/github/license/peco2282/qiipy)](https://github.com/peco2282/Qiipy/blob/main/license)
 # pyqiita
 
 This is an API wrapper for Qiita API v2.
+# How to install
+> on your console...
+```bash
+pip install pyqiita
+```
 
 ## Usage...
 example
