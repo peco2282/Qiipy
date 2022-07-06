@@ -676,12 +676,12 @@ class Client:
 
     def set_stock(
             self,
-            itme_id: str
+            item_id: str
     ) -> bool:
         response = Route(
             method="PUT",
             token=self.token,
-            path=f"items/{itme_id}/stock"
+            path=f"items/{item_id}/stock"
         )
         if response.response.status_code == 204:
             return True
