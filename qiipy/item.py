@@ -46,9 +46,7 @@ class Item:
 
     @property
     def coediting(self) -> bool:
-        if self.data.get("coediting").lower() == "true":
-            return True
-        return False
+        return self.data.get("coediting", False)
 
     @property
     def comments_count(self) -> int:
@@ -73,9 +71,7 @@ class Item:
 
     @property
     def private(self) -> bool:
-        if self.data.get("private") == "True":
-            return True
-        return False
+        return self.data.get("private", False)
 
     @property
     def reactions_count(self) -> int:

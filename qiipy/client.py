@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from . import Group, GroupMember, Comment, Tagging, Team, TeamMember, Template, Project
 from .exception import InvalidItemsRequested
@@ -156,7 +156,7 @@ class Client:
     def get_comment(
             self,
             comment_id: str
-    ) -> Comment:
+    ) -> Optional[Comment]:
         response = Route(
             method="GET",
             token=self.token,
@@ -169,7 +169,7 @@ class Client:
     def get_comments(
             self,
             item_id: str
-    ) -> List[Comment]:
+    ) -> Optional[List[Comment]]:
         response = Route(
             method="GET",
             token=self.token,
@@ -183,7 +183,7 @@ class Client:
             self,
             item_id: str,
             comment: str
-    ) -> Comment:
+    ) -> Optional[Comment]:
         response = Route(
             method="POST",
             token=self.token,
@@ -198,7 +198,7 @@ class Client:
     def get_project_comments(
             self,
             project_id: str
-    ) -> Comment:
+    ) -> Optional[Comment]:
         response = Route(
             method="GET",
             token=self.token,
@@ -212,7 +212,7 @@ class Client:
             self,
             project_id: str,
             comment: str
-    ) -> Comment:
+    ) -> Optional[Comment]:
         response = Route(
             method="POST",
             token=self.token,
@@ -228,7 +228,7 @@ class Client:
             project_id: str,
             comment: str,
             user_id: str
-    ) -> Comment:
+    ) -> Optional[Comment]:
         response = Route(
             method="POST",
             token=self.token,
@@ -243,7 +243,7 @@ class Client:
             self,
             comment_id: str,
             comment: str
-    ) -> Comment:
+    ) -> Optional[Comment]:
         response = Route(
             method="PATCH",
             token=self.token,
@@ -260,7 +260,7 @@ class Client:
             item_id: str,
             tag_name: str,
             versions: List[str] = None
-    ) -> Tagging:
+    ) -> Optional[Tagging]:
         json = dict()
         json["name"] = tag_name
         if versions:
@@ -279,7 +279,7 @@ class Client:
             self,
             item_id: str,
             tagging_id: str
-    ):
+    ) -> bool:
         response = Route(
             method="DELETE",
             token=self.token,
@@ -293,7 +293,7 @@ class Client:
     def get_tag(
             self,
             tag_id: str
-    ) -> Tag:
+    ) -> Optional[Tag]:
         response = Route(
             method="GET",
             token=self.token,
@@ -303,23 +303,25 @@ class Client:
             return Tag(response.response.json())
         return None
 
-    def get_tags(self, sort: Sort, page: int = 1, items: int = 20) -> List[Tag]:
+    def get_tags(self, sort: Sort, page: int = 1, items: int = 20) -> Optional[List[Tag]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested("Too many items were requested. You can request more than 1 and less than 100.")
-
+        sort = sort.value
         response = Route(
             method="GET",
             token=self.token,
             path=f"tags?page={page}&per_page={items}"
         )
-        return [Tag(data) for data in response.response.json()]
+        if response.response.status_code == 204:
+            return [Tag(data) for data in response.response.json()]
+        return None
 
     def get_following_tags(
             self,
             user_id: str,
             page: int = 1,
             items: int = 20
-    ) -> List[Tag]:
+    ) -> Optional[List[Tag]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -336,7 +338,7 @@ class Client:
     def delete_following_tag(
             self,
             tag_id: str
-    ):
+    ) -> bool:
         response = Route(
             method="DELETE",
             token=self.token,
@@ -349,7 +351,7 @@ class Client:
     def follow_tag(
             self,
             tag_id: str
-    ):
+    ) -> bool:
         response = Route(
             method="PUT",
             token=self.token,
@@ -360,7 +362,7 @@ class Client:
         return False
 
     # チーム
-    def get_user_teams(self) -> List[Team]:
+    def get_user_teams(self) -> Optional[List[Team]]:
         response = Route(
             method="GET",
             token=self.token,
@@ -375,7 +377,7 @@ class Client:
             self,
             items: int = 1,
             page: int = 20
-    ) -> List[TeamMember]:
+    ) -> Optional[List[TeamMember]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -394,7 +396,7 @@ class Client:
             self,
             page: int = 1,
             items: int = 20
-    ) -> List[Template]:
+    ) -> Optional[List[Template]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -424,7 +426,7 @@ class Client:
     def get_template(
             self,
             template_id: str
-    ) -> Template:
+    ) -> Optional[Template]:
         response = Route(
             method="GET",
             token=self.token,
@@ -442,7 +444,7 @@ class Client:
             self,
             page: int = 1,
             items: int = 20
-    ) -> List[Project]:
+    ) -> Optional[List[Project]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -463,7 +465,7 @@ class Client:
     def get_project(
             self,
             project_id: str
-    ):
+    ) -> Optional[Project]:
         response = Route(
             method="GET",
             token=self.token,
@@ -489,7 +491,7 @@ class Client:
             item_id: str,
             page: int = 1,
             items: int = 20
-    ) -> List[Item]:
+    ) -> Optional[List[Item]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -507,7 +509,7 @@ class Client:
     def get_user(
             self,
             user_id: str
-    ) -> User:
+    ) -> Optional[User]:
         response = Route(
             method="GET",
             token=self.token,
@@ -521,7 +523,7 @@ class Client:
             self,
             page: int = 1,
             items: int = 20
-    ) -> List[User]:
+    ) -> Optional[List[User]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -541,7 +543,7 @@ class Client:
             user_id: str,
             page: int = 1,
             items: int = 20
-    ) -> List[User]:
+    ) -> Optional[List[User]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -561,7 +563,7 @@ class Client:
             user_id: str,
             page: int = 1,
             items: int = 20
-    ) -> List[User]:
+    ) -> Optional[List[User]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
@@ -692,7 +694,7 @@ class Client:
             tag_id: str,
             page: int = 1,
             items: int = 20
-    ) -> List[Item]:
+    ) -> Optional[List[Item]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested("Too many items were requested. You can request more than 1 and less than 100.")
         response = Route(
