@@ -16,13 +16,13 @@ from qiipy import Client
 
 client = Client(token="Your_Qiita_Access_Token")
 user = client.get_authenticated_user_data()
-print("my name is " + user.id)
+print("my description is " + user.description)
 
----
-my name is peco_2282
+# ---
+# my name is ...
 ```
 
 ### How to get Qiita API Token ?
-1. [Look at this url](https://qiita.com/settings/applications).
+1. [Move to this url](https://qiita.com/settings/applications).
 2. Select `Applications`.
 3. Get Access Token from `Personal access tokens`

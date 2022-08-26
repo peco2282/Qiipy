@@ -65,7 +65,7 @@ class User:
 
     @property
     def team_only(self) -> bool:
-        return True if self.data.get("team_only").lower() == "true" else False
+        return self.data.get("team_only", False)
 
     @property
     def twitter_screen_name(self) -> Optional[str]:

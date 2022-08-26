@@ -4,7 +4,7 @@ from requests import Response
 BASE = "https://qiita.com/api/v2/"
 
 
-class Route:
+class Session:
     def __init__(
             self,
             method: str,

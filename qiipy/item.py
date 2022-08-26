@@ -10,25 +10,6 @@ from .user import User
 class Item:
     def __init__(self, data: Dict[str, Any]):
         self.data = data
-        # self.rendered_body: str = data.get("rendered_body")
-        # self.body: str = data.get("body")
-        # self.coediting: bool = data.get("coediting")
-        # self.comments_count: int = int(data.get("comments_count"))
-        # self.__created_at: str = data.get("created_at")
-        # self.created_at: datetime = datetime.strptime(self.__created_at, "%Y-%m-%dT%H:%M:%S%z")
-        # self.group: Team = data.get("group")
-        # self.id: str = data.get("id")
-        # self.likes_count: int = int(data.get("likes_count"))
-        # self.private: bool = True if str(data.get("private")) == "True" else False
-        # self.reactions_count: int = int(data.get("reactions_count"))
-        # self.tags: List[Dict[str, Union[str, List[str]]]] = data.get("tags")
-        # self.title: str = data.get("title")
-        # self.__updated_at: str = data.get("updated_at")
-        # self.updated_at: datetime = datetime.strptime(self.__updated_at, "%Y-%m-%dT%H:%M:%S%z")
-        # self.url: str = data.get("url")
-        # self.user: User = User(data.get("user"))
-        # self.page_views_count: Optional[int] = int(data.get("page_views_count"))
-        # self.team_membership: Member = data.get("team_membership")
 
     def __repr__(self) -> str:
         return (

@@ -7,16 +7,6 @@ from .group import Group
 class Template:
     def __init__(self, data: Dict[str, Any]):
         self.data = data
-        # self.body: str = data.get("body")
-        # self.id: int = int(data.get("id"))
-        # self.name: str = data.get("name")
-        # self.expanded_body: str = data.get("expanded_body")
-        # self.expanded_tags: List[Dict[str, Union[str, List[str]]]] = data.get("expanded_tags")
-        # self.expanded_title: str = data.get("expanded_title")
-        # self.group: Group = data.get("group")
-        # self.tags: List[Dict[str, Union[str, List[str]]]] = data.get("tags")
-        # self.title: str = data.get("title")
-        # self.coedit: bool = True if str(data.get("coedit")) == "True" else False
 
     @property
     def body(self) -> str:
@@ -24,8 +14,7 @@ class Template:
 
     @property
     def id(self) -> int:
-        _id: str = self.data.get("id")
-        return int(_id) if _id.isdigit() else None
+        return int(self.data.get("id", 0))
 
     @property
     def name(self) -> str:
@@ -57,4 +46,4 @@ class Template:
 
     @property
     def coedit(self) -> bool:
-        return True if self.data.get("coedit").lower() == "true" else False
+        return self.data.get("coedit", False)

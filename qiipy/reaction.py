@@ -7,11 +7,6 @@ from .user import User
 class Reaction:
     def __init__(self, data: Dict[str, Any]):
         self.data = data
-        # self.__created_at: str = data.get("created_at")
-        # self.created_at: datetime = datetime.strptime(self.__created_at, "%Y-%m-%dT%H:%M:%S%z")
-        # self.image_url: str = data.get("image_url")
-        # self.name: str = data.get("name")
-        # self.user: User = data.get("user")
 
     @property
     def created_at(self) -> datetime:

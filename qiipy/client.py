@@ -4,7 +4,7 @@ from typing import List, Optional
 from . import Group, GroupMember, Comment, Tagging, Team, TeamMember, Template, Project
 from .exception import InvalidItemsRequested
 from .item import Item
-from .route import Route
+from .session import Session
 from .tag import Tag
 from .user import User
 
@@ -32,7 +32,7 @@ class Client:
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
 
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"groups?page={page}&per_page={items}"
@@ -40,7 +40,7 @@ class Client:
         return [Group(group) for group in response.response.json()]
 
     def get_group(self, url_name: str) -> Group:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"groups/{url_name}"
@@ -54,7 +54,7 @@ class Client:
         pass
 
     def delete_group(self, url_name: str) -> None:
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"groups/{url_name}"
@@ -73,7 +73,7 @@ class Client:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"groups/{url_name}/members?page={page}&per_page={items}"
@@ -85,7 +85,7 @@ class Client:
             url_name: str,
             user_id: str
     ) -> GroupMember:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"groups/{url_name}/members/{user_id}"
@@ -108,7 +108,7 @@ class Client:
         else:
             raise ValueError()
 
-        response = Route(
+        response = Session(
             method="POST",
             token=self.token,
             path=f"groups/{url_name}/members",
@@ -131,7 +131,7 @@ class Client:
         else:
             raise ValueError()
 
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"groups/{url_name}/members",
@@ -143,7 +143,7 @@ class Client:
             self,
             comment_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"comments/{comment_id}"
@@ -157,7 +157,7 @@ class Client:
             self,
             comment_id: str
     ) -> Optional[Comment]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"comments/{comment_id}"
@@ -170,7 +170,7 @@ class Client:
             self,
             item_id: str
     ) -> Optional[List[Comment]]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"items/{item_id}/comments"
@@ -184,7 +184,7 @@ class Client:
             item_id: str,
             comment: str
     ) -> Optional[Comment]:
-        response = Route(
+        response = Session(
             method="POST",
             token=self.token,
             path=f"items/{item_id}/comments"
@@ -199,7 +199,7 @@ class Client:
             self,
             project_id: str
     ) -> Optional[Comment]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"projects/{project_id}/comments"
@@ -213,7 +213,7 @@ class Client:
             project_id: str,
             comment: str
     ) -> Optional[Comment]:
-        response = Route(
+        response = Session(
             method="POST",
             token=self.token,
             path=f"projects/{project_id}",
@@ -229,7 +229,7 @@ class Client:
             comment: str,
             user_id: str
     ) -> Optional[Comment]:
-        response = Route(
+        response = Session(
             method="POST",
             token=self.token,
             path=f"projects/{project_id}/imported_comments",
@@ -244,7 +244,7 @@ class Client:
             comment_id: str,
             comment: str
     ) -> Optional[Comment]:
-        response = Route(
+        response = Session(
             method="PATCH",
             token=self.token,
             path=f"comments/{comment_id}",
@@ -265,7 +265,7 @@ class Client:
         json["name"] = tag_name
         if versions:
             json["versions"] = versions
-        response = Route(
+        response = Session(
             method="POST",
             token=self.token,
             path=f"items/{item_id}/tagging",
@@ -280,7 +280,7 @@ class Client:
             item_id: str,
             tagging_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"items/{item_id}/tagging/{tagging_id}"
@@ -294,7 +294,7 @@ class Client:
             self,
             tag_id: str
     ) -> Optional[Tag]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"tags/{tag_id}"
@@ -307,7 +307,7 @@ class Client:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested("Too many items were requested. You can request more than 1 and less than 100.")
         sort = sort.value
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"tags?page={page}&per_page={items}"
@@ -326,7 +326,7 @@ class Client:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"users/{user_id}/following_tags?page={page}&per_page={items}"
@@ -339,7 +339,7 @@ class Client:
             self,
             tag_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"tags/{tag_id}/following"
@@ -352,7 +352,7 @@ class Client:
             self,
             tag_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="PUT",
             token=self.token,
             path=f"tags/{tag_id}/following"
@@ -363,7 +363,7 @@ class Client:
 
     # チーム
     def get_user_teams(self) -> Optional[List[Team]]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"teams"
@@ -382,7 +382,7 @@ class Client:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"team_memberships?page={items}&per_page={page}"
@@ -401,7 +401,7 @@ class Client:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"templates?page={page}&per_page={items}"
@@ -414,7 +414,7 @@ class Client:
             self,
             template_id: str
     ):
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"templates/{template_id}"
@@ -427,7 +427,7 @@ class Client:
             self,
             template_id: str
     ) -> Optional[Template]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"templates/{template_id}"
@@ -449,7 +449,7 @@ class Client:
             raise InvalidItemsRequested(
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"projects?page={page}&per_page={items}"
@@ -466,7 +466,7 @@ class Client:
             self,
             project_id: str
     ) -> Optional[Project]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"projects/{project_id}"
@@ -479,7 +479,7 @@ class Client:
 
     # ユーザー
     def get_authenticated_user_data(self) -> User:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path="authenticated_user"
@@ -497,7 +497,7 @@ class Client:
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
 
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"items/{item_id}/stockers?page={page}&per_page={items}"
@@ -510,7 +510,7 @@ class Client:
             self,
             user_id: str
     ) -> Optional[User]:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"users/{user_id}"
@@ -529,7 +529,7 @@ class Client:
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
 
-        response = Route(
+        response = Session(
             method="",
             token=self.token,
             path=f"users?page={page}&per_page={items}"
@@ -549,7 +549,7 @@ class Client:
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
 
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"users/{user_id}/followees?page={page}&per_page={items}"
@@ -569,7 +569,7 @@ class Client:
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
 
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"users/{user_id}/followers?page={page}&per_page={items}"
@@ -582,7 +582,7 @@ class Client:
             self,
             user_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"users/{user_id}/following"
@@ -595,7 +595,7 @@ class Client:
             self,
             user_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"users/{user_id}/following"
@@ -608,7 +608,7 @@ class Client:
             self,
             user_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="PUT",
             token=self.token,
             path=f"users/{user_id}/following"
@@ -622,7 +622,7 @@ class Client:
             self,
             item_id: str
     ) -> Item:
-        response = Route(
+        response = Session(
             "GET",
             token=self.token,
             path=f"items/{item_id}"
@@ -641,7 +641,7 @@ class Client:
                 "Too many items were requested. You can request more than 1 and less than 100."
             )
 
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"authenticated_user/items?page={page}&per_page={items}"
@@ -654,7 +654,7 @@ class Client:
             self,
             item_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="DELETE",
             token=self.token,
             path=f"items/{item_id}"
@@ -667,7 +667,7 @@ class Client:
             self,
             item_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"items/{item_id}/stock"
@@ -680,7 +680,7 @@ class Client:
             self,
             item_id: str
     ) -> bool:
-        response = Route(
+        response = Session(
             method="PUT",
             token=self.token,
             path=f"items/{item_id}/stock"
@@ -697,7 +697,7 @@ class Client:
     ) -> Optional[List[Item]]:
         if items > 100 | items <= 0:
             raise InvalidItemsRequested("Too many items were requested. You can request more than 1 and less than 100.")
-        response = Route(
+        response = Session(
             method="GET",
             token=self.token,
             path=f"tags/{tag_id}/items?page={page}&per_page={items}"

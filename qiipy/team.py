@@ -15,7 +15,7 @@ class Team:
 
     @property
     def is_active(self) -> bool:
-        return True if self.data.get("is_active").lower() == "true" else False
+        return self.data.get("is_active", False)
 
     @property
     def id(self) -> str:

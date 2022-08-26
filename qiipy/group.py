@@ -7,14 +7,6 @@ from .team import Team
 class Group:
     def __init__(self, data: Dict[str, Any]):
         self.data = data
-        # self.__created_at: str = data.get("created_at")
-        # self.created_at: datetime = datetime.strptime(self.__created_at, "%Y-%m-%dT%H:%M:%S%z")
-        # self.description: str = data.get("description")
-        # self.name: str = data.get("name")
-        # self.private: bool = True if str(data.get("private")) == "True" else False
-        # self.__updated_at: str = data.get("updated_at")
-        # self.updated_at: datetime = datetime.strptime(self.__updated_at, "%Y-%m-%dT%H:%M:%S%z")
-        # self.url_name: str = data.get("url_name")
 
     def __repr__(self) -> str:
         return (
@@ -36,7 +28,7 @@ class Group:
 
     @property
     def private(self) -> bool:
-        return True if self.data.get("private").lower() == "True" else False
+        return self.data.get("private", False)
 
     @property
     def updated_at(self) -> datetime:
